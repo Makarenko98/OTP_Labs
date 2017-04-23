@@ -32,7 +32,9 @@ public class Text {
         this.sentences = sentences;
     }
 
-    public void addSentence(Sentence sentence) {
+    public boolean addSentence(Sentence sentence) {
+        if(sentence == null)
+            return false;
         if (sentences.length == this.count) {
             Sentence[] temp = sentences.clone();
             sentences = new Sentence[count * 2];
@@ -41,6 +43,7 @@ public class Text {
         }
         sentences[count] = sentence;
         count++;
+        return true;
     }
 
     public Text parse(StringBuilder text) {

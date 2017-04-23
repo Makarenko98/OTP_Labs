@@ -88,7 +88,9 @@ public class TextAnalyzer {
                 || text.charAt(n) == '-' || text.charAt(n) == '.' || text.charAt(n) == '!' || text.charAt(n) == '?');
     }
 
-    private void addWord(StringBuilder word) {
+    private boolean addWord(StringBuilder word) {
+        if (word == null)
+            return false;
         if (words.length == this.count) {
             StringBuilder[] temp = words.clone();
             words = new StringBuilder[count * 2];
@@ -97,6 +99,7 @@ public class TextAnalyzer {
         }
         words[count] = word;
         count++;
+        return true;
     }
 
     public StringBuilder[] getWords() {

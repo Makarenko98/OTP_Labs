@@ -13,7 +13,7 @@ public class Word {
         letters = new Letter[5];
     }
 
-    public Word(StringBuilder word){
+    public Word(StringBuilder word) {
         parse(word);
     }
 
@@ -30,24 +30,27 @@ public class Word {
         this.letters = letters;
     }
 
-    public void addLetter(Letter letter) {
-        if(letters.length == this.length){
+    public boolean addLetter(Letter letter) {
+        if(letter == null)
+            return false;
+        if (letters.length == this.length) {
             Letter[] temp = letters.clone();
-            letters = new Letter[length*2];
-            for(int i=0;i<length;i++)
+            letters = new Letter[length * 2];
+            for (int i = 0; i < length; i++)
                 letters[i] = temp[i];
         }
         letters[length] = letter;
         length++;
+        return true;
     }
 
     public int getLength() {
         return length;
     }
 
-    public Word parse(StringBuilder word){
+    public Word parse(StringBuilder word) {
         letters = new Letter[word.length()];
-        for(int i=0;i<word.length();i++)
+        for (int i = 0; i < word.length(); i++)
             letters[i] = new Letter(word.charAt(i));
         return this;
     }
@@ -55,7 +58,7 @@ public class Word {
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder(length);
-        for(int i=0;i<length;i++)
+        for (int i = 0; i < length; i++)
             str.append(letters[i].toString());
         return new String(str);
     }

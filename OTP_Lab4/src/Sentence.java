@@ -26,7 +26,9 @@ public class Sentence {
         this.words = words;
     }
 
-    public void addWord(Word word) {
+    public boolean addWord(Word word) {
+        if(word == null)
+            return false;
         if (words.length == this.countWords) {
             Word[] temp = words.clone();
             words = new Word[countWords * 2];
@@ -35,9 +37,12 @@ public class Sentence {
         }
         words[countWords] = word;
         countWords++;
+        return true;
     }
 
-    public void addMark(Mark mark) {
+    public boolean addMark(Mark mark) {
+        if(mark == null)
+            return false;
         if (marks.length == this.countMarks) {
             Mark[] temp = marks.clone();
             marks = new Mark[countMarks * 2];
@@ -46,6 +51,7 @@ public class Sentence {
         }
         marks[countMarks] = mark;
         countMarks++;
+        return true;
     }
 
     public Sentence parse(StringBuilder sentence) {
