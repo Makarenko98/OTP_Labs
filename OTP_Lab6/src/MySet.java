@@ -30,6 +30,11 @@ public class MySet implements Set<Vegetable> {
         count = collection.size();
     }
 
+    public MySet(Vegetable[] vegs) {
+        this.vegetables = vegs.clone();
+        count = vegs.length;
+    }
+
     @Override
     public int size() {
         return count;
@@ -84,7 +89,7 @@ public class MySet implements Set<Vegetable> {
             return false;
         if (vegetables.length == this.count) {
             Vegetable[] temp = vegetables.clone();
-            vegetables = new Vegetable[(int)(count * stepSize)];
+            vegetables = new Vegetable[(int) (count * stepSize)];
             for (int i = 0; i < count; i++)
                 vegetables[i] = temp[i];
         }
@@ -98,9 +103,10 @@ public class MySet implements Set<Vegetable> {
         if (!this.contains(o))
             return false;
         for (int i = 0; i < count; i++)
-            if (vegetables[i] == o) {
+            if (vegetables[i].equals(o)) {
                 for (int j = i; j < count - 1; j++)
-                    vegetables[i] = vegetables[i + 1];
+                    vegetables[j] = vegetables[j + 1];
+                vegetables[count - 1] = null;
                 break;
             }
         count--;
@@ -111,8 +117,9 @@ public class MySet implements Set<Vegetable> {
     public boolean containsAll(Collection<?> c) {
         if (c == null || c.size() == 0)
             return false;
-        while (c.iterator().hasNext())
-            if (this.contains(c.iterator().next()))
+        Iterator<?> iter = c.iterator();
+        while (iter.hasNext())
+            if (this.contains(iter.next()))
                 return false;
         return true;
     }
@@ -123,12 +130,13 @@ public class MySet implements Set<Vegetable> {
             return false;
         if (this.vegetables.length <= this.count + c.size()) {
             Vegetable[] temp = this.vegetables.clone();
-            this.vegetables = new Vegetable[(int)(count * stepSize) + c.size()];
+            this.vegetables = new Vegetable[(int) (count * stepSize) + c.size()];
             for (int i = 0; i < count; i++)
                 this.vegetables[i] = temp[i];
         }
-        while (c.iterator().hasNext())
-            vegetables[count++] = c.iterator().next();
+        Iterator<Vegetable> iter = (Iterator<Vegetable>) c.iterator();
+        while (iter.hasNext())
+            vegetables[count++] = iter.next();
         return true;
     }
 
@@ -140,6 +148,7 @@ public class MySet implements Set<Vegetable> {
         for (int i = 0; i < count; i++) {
             if (!c.contains(vegetables[i])) {
                 this.remove(vegetables[i]);
+                i--;
                 flag = true;
             }
         }
@@ -164,5 +173,25 @@ public class MySet implements Set<Vegetable> {
     public void clear() {
         vegetables = new Vegetable[initialSize];
         count = 0;
+    }
+
+    @Override
+    public String toString() {
+        String str = new String();
+        String vegetable;
+        int n = 0;
+        for (int i = 0; i < count; i++) {
+            vegetable = vegetables[i].toString();
+            if (!str.contains(vegetables[i].toString())) {
+                n = 0;
+                str += vegetable;
+                for (int j = 0; j < count; j++) {
+                    if (vegetable.equals(vegetables[j].toString()))
+                        n++;
+                }
+                str += " x" + n + "\n";
+            }
+        }
+        return str;
     }
 }
