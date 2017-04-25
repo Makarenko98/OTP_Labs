@@ -1,3 +1,5 @@
+package main;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
@@ -16,21 +18,25 @@ public class MySet implements Set<Vegetable> {
         vegetables = new Vegetable[initialSize];
     }
 
-    public MySet(Vegetable vegetable) {
+    public MySet(Vegetable vegetable) throws MyException {
+        if(vegetable == null)
+            throw new MyException("vegetable should not be null");
         vegetables = new Vegetable[initialSize];
         vegetables[0] = vegetable;
         count++;
     }
 
-    public MySet(Collection<Vegetable> collection) {
+    public MySet(Collection<Vegetable> collection) throws MyException {
         if (collection == null || collection.size() == 0)
-            throw new IllegalArgumentException();
+            throw new MyException("Collection should not be empty");
         vegetables = new Vegetable[collection.size()];
         collection.toArray(vegetables);
         count = collection.size();
     }
 
-    public MySet(Vegetable[] vegs) {
+    public MySet(Vegetable[] vegs) throws MyException {
+        if (vegs == null || vegs.length == 0)
+            throw new MyException("Collection should not be empty");
         this.vegetables = vegs.clone();
         count = vegs.length;
     }
@@ -163,6 +169,7 @@ public class MySet implements Set<Vegetable> {
         for (int i = 0; i < count; i++) {
             if (c.contains(vegetables[i])) {
                 this.remove(vegetables[i]);
+                i--;
                 flag = true;
             }
         }
