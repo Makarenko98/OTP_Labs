@@ -1,7 +1,11 @@
 package test;
 
+import main.*;
 import org.junit.Test;
 
+import static org.junit.Assert.*;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -149,7 +153,7 @@ public class MyTest {
     }
 
     @Test
-    public void testClear(){
+    public void testClear() {
         ArrayList<Vegetable> list = new ArrayList<Vegetable>();
         list.add(new Tomato());
         list.add(new Cucumber());
@@ -159,5 +163,47 @@ public class MyTest {
         set.addAll(list);
         set.clear();
         assertEquals("clear size error", 0, set.size());
+    }
+
+    @Test
+    public void testMySetIOasSingleObject() throws IOException, ClassNotFoundException {
+        MySetIO mySetIO = new MySetIO();
+        MySet set = new MySet();
+        set.add(new Tomato());
+        set.add(new Cucumber());
+        set.add(new Onion());
+        set.add(new Cabbage());
+        mySetIO.writeAsSingleObject(set, "file.bin");
+        MySet set1 = mySetIO.readAsSingleObject("file.bin");
+        assertEquals("read/write error",true, set.containsAll(set1));
+        assertEquals("read/write error",set.size(), set1.size());
+    }
+
+    @Test
+    public void testMySetIOsequenseOfObject() throws IOException, ClassNotFoundException {
+        MySetIO mySetIO = new MySetIO();
+        MySet set = new MySet();
+        set.add(new Tomato());
+        set.add(new Cucumber());
+        set.add(new Onion());
+        set.add(new Cabbage());
+        mySetIO.writeAsSequenceOfObjects(set, "file.bin");
+        MySet set1 = mySetIO.readAsSequenceOfObjects("file.bin");
+        assertEquals("read/write error",true, set.containsAll(set1));
+        assertEquals("read/write error",set.size(), set1.size());
+    }
+
+    @Test
+    public void testMySetIOsequenseOfObjectText() throws IOException, ClassNotFoundException {
+        MySetIO mySetIO = new MySetIO();
+        MySet set = new MySet();
+        set.add(new Tomato());
+        set.add(new Cucumber());
+        set.add(new Onion());
+        set.add(new Cabbage());
+        mySetIO.writeAsSequenceOfObjectsText(set, "file.txt");
+        MySet set1 = mySetIO.readAsSequenceOfObjectsText("file.txt");
+        assertEquals("read/write error",true, set.containsAll(set1));
+        assertEquals("read/write error",set.size(), set1.size());
     }
 }
